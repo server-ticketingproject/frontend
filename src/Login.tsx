@@ -1,26 +1,23 @@
-import { GoogleLogin } from '@react-oauth/google';
+const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID as string;
+const REDIRECT_URI = 'http://localhost:5173';
 
 function Login() {
-  const handleSuccess = async (credentialResponse : any) => {
-    const { credential } = credentialResponse;
+  const handleGoogleLogin = () => {
+    const oauthUrl =
+      `https://accounts.google.com/o/oauth2/v2/auth?` +
+      `client_id=${CLIENT_ID}` +
+      `&redirect_uri=${encodeURIComponent(REDIRECT_URI)}` +
+      `&response_type=token` + // token을 바로 받는 implicit 방식
+      `&scope=profile email` +
+      `&state=random123`;
 
-    const response = await fetch('http://localhost:8000/api/auth/google-login/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ id_token: credential }),
-    });
-
-    const data = await response.json();
-    console.log('백엔드 응답:', data);
-    localStorage.setItem('access_token', data.access_token);
+    window.location.href = oauthUrl;
   };
 
   return (
     <div>
-      <h1>Google 로그인</h1>
-      <GoogleLogin onSuccess={handleSuccess} onError={() => console.log('실패')} />
+      <h1>Google OAuth 로그인</h1>
+      <button onClick={handleGoogleLogin}>Google 로그인</button>
     </div>
   );
 }
