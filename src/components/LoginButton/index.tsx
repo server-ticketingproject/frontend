@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import styles from './style.module.css';
 
 const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID as string;
 const REDIRECT_URI = 'http://localhost:5173';
@@ -54,7 +55,7 @@ function LoginButton() {
 
   return (
     <div>
-      <button onClick={handleGoogleLogin}>Google 로그인</button>
+      <button className={styles.ButtonStyle} onClick={handleGoogleLogin}>Google 로그인</button>
     </div>
   );
 }
