@@ -9,7 +9,7 @@ function parseAccessTokenFromHash() {
   return params.get('access_token');
 }
 
-function Login() {
+function LoginButton() {
   useEffect(() => {
     const token = parseAccessTokenFromHash();
     if (token) {
@@ -54,10 +54,9 @@ function Login() {
 
   return (
     <div>
-      <h1>Google OAuth 로그인</h1>
       <button onClick={handleGoogleLogin}>Google 로그인</button>
     </div>
   );
 }
 
-export default Login;
+export default LoginButton;
