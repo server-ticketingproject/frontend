@@ -4,6 +4,7 @@ import { SPACING } from "../../styles/spacing";
 import SelectHeader from "../../components/MainPage/selectHeader";
 import { HStack } from "../../components/HStack";
 import WeekPerformCardLayout from "../../components/MainPage/weekPerformCard/layout";
+import MyperformsLayout from "../../components/MainPage/Myperforms/layout";
 
 export default function MainPage() {
     return (
@@ -28,6 +29,7 @@ export default function MainPage() {
                 }}
             >
                <WeekPerformCardLayout />
+               <MyperformsLayout />
             </HStack>
         </VStack>
     );

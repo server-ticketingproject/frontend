@@ -9,7 +9,7 @@ export default function WeekPerformCardLayout() {
         <VStack
             style={{
                 position : "relative",
-                width : "1034px",
+                width : "calc(100% - 370px)",
                 height : "370px",
                 padding : `${SPACING.medium}px`,
                 backgroundImage : `url(${testBandImage})`,
