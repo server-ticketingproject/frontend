@@ -12,7 +12,8 @@
   "dependencies": {
     "@react-oauth/google": "^0.12.2",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "sass": "^1.89.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
