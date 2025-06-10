@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styles from './style.module.css';
 import signIn from '../../features/signin';
+import COLORS from '../../styles/colors';
 
 export default function SigninPage() {
   const [formData, setFormData] = useState({
@@ -34,13 +35,14 @@ export default function SigninPage() {
         <h2>회원가입</h2>
 
         <label>
-          사용자 이름
+          닉네임
           <input
             type="text"
             name="username"
             value={formData.username}
             onChange={handleChange}
             required
+            placeholder="닉네임을 입력해주세요."
           />
         </label>
 
@@ -52,6 +54,8 @@ export default function SigninPage() {
             value={formData.email}
             onChange={handleChange}
             required
+            placeholder="이메일을 입력해주세요."
+
           />
         </label>
 
@@ -63,6 +67,7 @@ export default function SigninPage() {
             value={formData.password}
             onChange={handleChange}
             required
+            placeholder="비밀번호를 입력해주세요."
           />
         </label>
 
@@ -74,20 +79,26 @@ export default function SigninPage() {
             value={formData.phone}
             onChange={handleChange}
             required
+            placeholder="전화번호를 입력해주세요."
           />
         </label>
 
         <label>
           역할
           <select name="role" value={formData.role} onChange={handleChange} required>
-            <option value="">선택하세요</option>
+            <option value="">선택하세요.</option>
             <option value="performer">공연자</option>
             <option value="user">일반 사용자</option>
             <option value="stage_manager">무대 관리자</option>
           </select>
         </label>
-
-        <button type="submit">가입하기</button>
+        <div className={styles.loginPrompt}>
+                계정이 없으신가요?{' '}
+                <a href="/login" className={styles.loginLink}>
+                    로그인
+                </a>
+        </div>
+        <button type="submit" style={{background : COLORS.brandPrimary}}>가입하기</button>
       </form>
     </div>
   );

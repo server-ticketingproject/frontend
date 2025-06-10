@@ -43,13 +43,15 @@ const LoginPage: React.FC = () => {
             <form onSubmit={handleSubmit}>
                 <div className={styles.loginBox}>
                     <div className={styles.inputGroup}>
-                    <label htmlFor="email">이름</label>
+                    <label htmlFor="email">닉네임</label>
                     <input
                         id="email"
                         type="text"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
                         className={styles.input}
+                        placeholder="닉네임을 입력하세요."
+
                     />
                     </div>
                     <div className={styles.inputGroup}>
@@ -61,6 +63,7 @@ const LoginPage: React.FC = () => {
                             onChange={e => setPassword(e.target.value)}
                             className={styles.input}
                             required
+                            placeholder="비밀번호를 입력하세요."
                         />
                     </div>
                 </div>
