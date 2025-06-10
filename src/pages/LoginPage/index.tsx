@@ -30,7 +30,7 @@ const LoginPage: React.FC = () => {
             }
             const data = await response.json();
             console.log('로그인 성공:', data);
-            window.location.href = '/MainPage';
+            window.location.href = '/';
         })
         .catch(() => {
             setError('서버와의 통신에 실패했습니다.');
@@ -43,10 +43,10 @@ const LoginPage: React.FC = () => {
             <form onSubmit={handleSubmit}>
                 <div className={styles.loginBox}>
                     <div className={styles.inputGroup}>
-                    <label htmlFor="email">이메일</label>
+                    <label htmlFor="email">이름</label>
                     <input
                         id="email"
-                        type="email"
+                        type="text"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
                         className={styles.input}
