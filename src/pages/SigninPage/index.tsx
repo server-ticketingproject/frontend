@@ -1,63 +1,94 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styles from './style.module.css';
-import COLORS from '../../styles/colors';
-import Logo from '../../components/Logo/certain-logo.svg';
-const SigninPage: React.FC = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
+import signIn from '../../features/signin';
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        // TODO: Replace with real authentication logic
-        if (!email || !password) {
-            setError('이메일과 비밀번호를 입력해주세요.');
-            return;
-        }
-        setError('');
-        // 로그인 처리 로직
-        alert('로그인 성공!');
-    };
+export default function SigninPage() {
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+    email: '',
+    role: '',
+    phone: '',
+  });
 
-    return (
-        <div className={styles.container}>
-            <img src={Logo} alt="Logo" className={styles.logo} />
-            <h2 className={styles.title}>로그인</h2>
-            <form onSubmit={handleSubmit}>
-                <div className={styles.inputGroup}>
-                    <label htmlFor="email">이메일</label>
-                    <input
-                        id="email"
-                        type="email"
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
-                        className={styles.input}
-                    />
-                </div>
-                <div className={styles.inputGroup}>
-                    <label htmlFor="password">비밀번호</label>
-                    <input
-                        id="password"
-                        type="password"
-                        value={password}
-                        onChange={e => setPassword(e.target.value)}
-                        className={styles.input}
-                        required
-                    />
-                </div>
-                {error && <div className={styles.error}>{error}</div>}
-                <div className={styles.signupPrompt}>
-                    계정이 없으신가요?{' '}
-                    <a href="/signup" className={styles.signupLink}>
-                        회원가입
-                    </a>
-                </div>
-                <button type="submit" className={styles.button} style={{background : COLORS.brandPrimary}}>
-                    로그인
-                </button>
-            </form>
-        </div>
-    );
-};
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
 
-export default SigninPage;
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('회원가입 데이터:', formData);
+
+    const data = signIn(formData);
+    //@ts-ignore
+    if (data) {
+      alert('회원가입이 완료되었습니다!');
+      // 추가 동작(예: 리디렉션) 가능
+    }
+  };
+
+  return (
+    <div className={styles.container}>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <h2>회원가입</h2>
+
+        <label>
+          사용자 이름
+          <input
+            type="text"
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            required
+          />
+        </label>
+
+        <label>
+          이메일
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+        </label>
+
+        <label>
+          비밀번호
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+        </label>
+
+        <label>
+          전화번호
+          <input
+            type="tel"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            required
+          />
+        </label>
+
+        <label>
+          역할
+          <select name="role" value={formData.role} onChange={handleChange} required>
+            <option value="">선택하세요</option>
+            <option value="performer">공연자</option>
+            <option value="user">일반 사용자</option>
+            <option value="stage_manager">무대 관리자</option>
+          </select>
+        </label>
+
+        <button type="submit">가입하기</button>
+      </form>
+    </div>
+  );
+}

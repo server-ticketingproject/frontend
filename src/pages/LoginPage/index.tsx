@@ -15,8 +15,26 @@ const LoginPage: React.FC = () => {
             return;
         }
         setError('');
-        // 로그인 처리 로직
-        alert('로그인 성공!');
+        fetch('http://127.0.0.1:8000/api/users/login/', {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username: email, password }),
+        })
+        .then(async response => {
+            if (!response.ok) {
+            const data = await response.json();
+            setError(data.detail || '로그인에 실패했습니다.');
+            return;
+            }
+            const data = await response.json();
+            console.log('로그인 성공:', data);
+            window.location.href = '/MainPage';
+        })
+        .catch(() => {
+            setError('서버와의 통신에 실패했습니다.');
+        });
     };
 
     return (
