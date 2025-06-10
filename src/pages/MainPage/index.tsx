@@ -16,7 +16,6 @@ export default function MainPage() {
             style={{
                 width : "100%",
                 overflowY : "auto",
-                scrollbarWidth : "none",
             }}
         >
             <Header />
