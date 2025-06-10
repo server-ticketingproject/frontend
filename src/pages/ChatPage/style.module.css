@@ -1,0 +1,160 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.header {
+  width: 100%;
+  height: 56px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.chatContainer {
+  flex: 1;
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 56px);
+}
+
+.userList {
+  width: 260px;
+  background: #fff;
+  border-right: 1px solid #d9d9d9;
+  padding: 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+.userItem {
+  width: 100%;
+  height: 60px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  position: relative;
+}
+
+.clickableUserItem {
+  cursor: pointer;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  margin-left: 16px;
+}
+
+.userName {
+  font-weight: bold;
+}
+
+.lastMessage {
+  font-size: 12px;
+  color: #333;
+}
+
+.badge {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: red;
+  color: #fff;
+  border-radius: 999px;
+  padding: 2px 6px;
+  font-size: 12px;
+}
+
+.userChat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+
+.chatHeader {
+  height: 60px;
+  background: #fff;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.chatMessages {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  background: #fff;
+  display: flex;
+}
+
+.messageList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.chatBubble {
+  padding: 8px 12px;
+  border-radius: 12px;
+  max-width: 60%;
+  word-break: break-word;
+}
+
+.fromMe {
+  align-self: flex-end;
+  background-color: #ffd89e;
+}
+
+.fromOther {
+  align-self: flex-start;
+  background-color: #e2ffe1;
+}
+
+.chatInput {
+  background: #fff;
+  padding: 8px;
+  display: flex;
+  width: 95%;
+  gap: 8px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  position: relative;
+  bottom: 2%;
+  margin: 0 auto;
+}
+
+.chatInputField {
+  flex: 1;
+  padding: 8px 16px;
+  border: none;
+  background: #ffffff;
+  font-size: 14px;
+  
+}
+
+.sendButton {
+  background: #FFD89E;
+  color: #000;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.selectedUserItem {
+  background-color: #FFD89E; /* 원하는 색상으로 변경 가능 */
+  /* 예: border-left: 4px solid #007bff; */
+}

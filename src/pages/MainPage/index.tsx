@@ -5,7 +5,7 @@ import SelectHeader from "../../components/MainPage/selectHeader";
 import { HStack } from "../../components/HStack";
 import WeekPerformCardLayout from "../../components/MainPage/weekPerformCard/layout";
 import MyperformsLayout from "../../components/MainPage/Myperforms/layout";
-
+import RecommendPerformLayout from "../../components/MainPage/RecommendPerform/layout";
 export default function MainPage() {
     return (
         <VStack
@@ -25,12 +25,13 @@ export default function MainPage() {
                 gap={SPACING.medium}    
                 style={{
                     width : "100%",
-                    padding : `${SPACING.medium}px`,
+                    padding : `0 ${SPACING.medium}px`,
                 }}
             >
                <WeekPerformCardLayout />
                <MyperformsLayout />
             </HStack>
+            <RecommendPerformLayout />
         </VStack>
     );
 }
