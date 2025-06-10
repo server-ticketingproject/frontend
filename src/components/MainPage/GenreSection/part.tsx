@@ -1,11 +1,15 @@
 import { VStack } from "../../VStack";
 import { SPACING } from "../../../styles/spacing";
-import { FONTS } from "../../../styles/fonts";
 import COLORS from "../../../styles/colors";
+import { FONTS } from "../../../styles/fonts";
+import RecommendPerformCard from "../RecommendPerform/card";
 import { HStack } from "../../HStack";
-import RecommendPerformCard from "./card";
 import Button from "../../Button";
-export default function RecommendPerformLayout() {
+interface GenreSectionPartProps {
+    genre : string;
+}
+
+export default function GenreSectionPart({ genre } : GenreSectionPartProps) {
 
     const recommendPerformList = [
         {   
@@ -23,48 +27,17 @@ export default function RecommendPerformLayout() {
             when : "공연 일시",
             slogan : "공연 설명",
         },
-        {
-            title : "공연 이름",
-            when : "공연 일시",
-            slogan : "공연 설명",
-        },
-        {
-            title : "공연 이름",
-            when : "공연 일시",
-            slogan : "공연 설명",
-        },   
-        {
-            title : "공연 이름",
-            when : "공연 일시",
-            slogan : "공연 설명",
-        },
-        {
-            title : "공연 이름",
-            when : "공연 일시",
-            slogan : "공연 설명",
-        },
-        {
-            title : "공연 이름",
-            when : "공연 일시",
-            slogan : "공연 설명",
-        },
-        {
-            title : "공연 이름",
-            when : "공연 일시",
-            slogan : "공연 설명",
-        },
     ];
-
-
 
     return (
         <VStack
             align="flex-start"
             justify="flex-start"
-            gap={SPACING.medium}
+            gap={SPACING.small}
             style={{
-                width : "100%",
-                padding : `0 ${SPACING.medium}px`,
+                width : 628,
+                fontSize : FONTS.size.huge,
+                color : COLORS.textPrimary,
             }}
         >
             <p
@@ -74,7 +47,7 @@ export default function RecommendPerformLayout() {
                     color : COLORS.textPrimary,
                 }}
             >
-                요즘 인기있는 공연들
+                {genre}
             </p>
             <HStack
                 align="center"
@@ -87,13 +60,13 @@ export default function RecommendPerformLayout() {
                 }}
             >
                 {recommendPerformList.map((perform, index) => (
-                    <RecommendPerformCard
-                        key={index}
-                        title={perform.title}
-                        when={perform.when}
-                        slogan={perform.slogan}
-                    />
-                ))}
+                <RecommendPerformCard
+                    key={index}
+                    title={perform.title}
+                    when={perform.when}
+                    slogan={perform.slogan}
+                />
+            ))}
             </HStack>
             <HStack
                 align="center"
@@ -104,7 +77,7 @@ export default function RecommendPerformLayout() {
             >
                 <Button
                     onClick={() => {console.log('더 많은 공연 보러가기') }}
-                    text="더 많은 공연 보러가기"
+                    text={`더 많은 ${genre} 공연 보러가기`}
                     fontSize={FONTS.size.body}
                     paddingHorizontal={SPACING.huge}
                     paddingVertical={SPACING.medium}

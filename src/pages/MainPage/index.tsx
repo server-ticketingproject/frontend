@@ -6,6 +6,7 @@ import { HStack } from "../../components/HStack";
 import WeekPerformCardLayout from "../../components/MainPage/weekPerformCard/layout";
 import MyperformsLayout from "../../components/MainPage/Myperforms/layout";
 import RecommendPerformLayout from "../../components/MainPage/RecommendPerform/layout";
+import GenreSectionLayout from "../../components/MainPage/GenreSection/layout";
 export default function MainPage() {
     return (
         <VStack
@@ -13,8 +14,9 @@ export default function MainPage() {
             justify="flex-start"
             gap={SPACING.medium}
             style={{
-                width : "100vw",
-                height : "100vh",
+                width : "100%",
+                overflowY : "auto",
+                scrollbarWidth : "none",
             }}
         >
             <Header />
@@ -32,6 +34,7 @@ export default function MainPage() {
                <MyperformsLayout />
             </HStack>
             <RecommendPerformLayout />
+            <GenreSectionLayout />
         </VStack>
     );
 }
