@@ -4,6 +4,11 @@ import ChatPage from "./pages/ChatPage";
 import PerformListPage from "./pages/PerformListPage";
 import LoginPage from "./pages/LoginPage";
 import SigninPage from "./pages/SigninPage";
+import BandPage from "./pages/BandPage";
+import PerformPage from "./pages/PerformPage";
+import PerformReservePage from "./pages/PerformReservePage";
+import StagePage from "./pages/StagePage";
+import StageListPage from "./pages/StageListPage";
 
 const router = createBrowserRouter([
   {
@@ -25,7 +30,27 @@ const router = createBrowserRouter([
   {
     path: "/signin",
     element: <SigninPage/>,
-  }
+  },
+  {
+    path: "/band",
+    element: <BandPage/>,
+  },
+  {
+    path: "/perform",
+    element: <PerformPage/>,
+  },
+  {
+    path: "/perform-reserve",
+    element: <PerformReservePage/>,
+  },
+  {
+    path: "/stage",
+    element: <StagePage/>,
+  },
+  {
+    path: "/stage-list",
+    element: <StageListPage/>,
+  },
 ]);
 
 export default router;
