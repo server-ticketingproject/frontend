@@ -26,6 +26,7 @@ export default function Button({
                 fontSize : fontSize,
                 border : "none",
                 outline : "none",
+                margin: '0'
             }}
         >
             {text}

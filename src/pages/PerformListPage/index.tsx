@@ -82,7 +82,6 @@ export default function PerformListPage() {
                     justify="space-between"
                     style={{
                         width : 300,
-                        padding: SPACING.tiny,
                         border : `1px solid ${COLORS.border}`,
                         borderRadius : SPACING.tiny,
                     }}
@@ -93,6 +92,9 @@ export default function PerformListPage() {
                         style={{
                             border: "none",
                             outline: "none",
+                            backgroundColor: "transparent",
+                            padding: SPACING.tiny,
+                            margin: 0,
                         }}
                     />
                     <IoMdSearch size={20} color={COLORS.textForth} />
