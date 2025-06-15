@@ -28,7 +28,7 @@ export default function TitleAndText({
 }: TitleAndTextProps) {
     return (
         <HStack gap={gap} align="center" justify="flex-start" style={{ width: width, ...style }}>
-            <p style={{ fontSize: titleSize , fontWeight: 500, color : titleColor ? titleColor : COLORS.textPrimary}}>{title}</p>
+            <p style={{ fontSize: titleSize , fontWeight: 700, color : titleColor ? titleColor : COLORS.textPrimary}}>{title}</p>
             <p style={{ fontSize: textSize , fontWeight: 200, color: textColor ? textColor : COLORS.textSecond}}>{text}</p>
             {icon}
         </HStack>
