@@ -9,9 +9,10 @@ import COLORS from "../../styles/colors"
 import PerformIntroduceCard from "../../components/PerformPage/IntroduceCard";
 import Button from "../../components/Button";
 import Tag from "../../components/Tag";
+import { useNavigate } from "react-router-dom";
 
 export default function PerformPage() {
-
+    const navigate = useNavigate();
     const tags = ['재밋', '청년', '밴드'];  
     const images = [testImage, testImage, testImage, testImage, testImage, testImage, testImage];
 
@@ -24,10 +25,18 @@ export default function PerformPage() {
                 width : "100vw",
                 height : "100vh",
                 overflowY : "auto",
-                padding: `${SPACING.medium}px`,
             }}
         >
             <Header />
+            <VStack
+                align="flex-start"
+                justify="flex-start"
+                gap={SPACING.medium}
+                style={{
+                    width : "100%",
+                    padding: `0 ${SPACING.medium}px`,
+                }}
+            >
             <HStack
                 align="flex-start"
                 justify="space-between"
@@ -108,7 +117,7 @@ export default function PerformPage() {
                 <Button
                     text="예매하기"
                     fontSize={FONTS.size.body}
-                    onClick={() => {console.log("예매하기")}}
+                    onClick={() => {navigate('/perform-reserve')}}
                     paddingHorizontal={SPACING.superHuge}
                     paddingVertical={40}
                 />
@@ -248,6 +257,7 @@ export default function PerformPage() {
                     />
                 ))}
                 </HStack>
+            </VStack>
             </VStack>
         </VStack>
     );

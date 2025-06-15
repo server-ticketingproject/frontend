@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import COLORS from "../../../styles/colors";
-import { HStack } from '../../HStack';
 import { SPACING } from '../../../styles/spacing';
 import { FONTS } from '../../../styles/fonts';
 import Button from '../../Button';
-import { VStack } from '../../VStack';
 
 declare module 'styled-components' {
   export interface DefaultTheme {}
@@ -80,25 +78,12 @@ const RowLabel = styled.div`
   min-width: 20px;
 `;
 
-const ColumnLabel = styled.div`
-  text-align: center;
-  font-weight: bold;
-  font-size: 12px;
-  margin-bottom: 5px;
-`;
+
 
 const SeatsContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-`;
-
-const ColumnLabels = styled.div`
-  display: grid;
-  grid-template-columns: 20px repeat(15, 30px);
-  gap: 8px;
-  margin-left: 30px;
-  margin-bottom: 5px;
 `;
 
 export default function StageComponent({ 
@@ -107,12 +92,6 @@ export default function StageComponent({
 }: StageProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedSeat, setSelectedSeat] = useState('a6'); // Default to a6 as initially selected
-
-  // Function to open modal with selected seat
-  const openModal = (seatId: string) => {
-    setSelectedSeat(seatId);
-    setIsModalOpen(true);
-  };
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -171,8 +150,6 @@ export default function StageComponent({
     }
     seatsByRow[row].push(seat);
   });
-
-  const columns = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o'];
 
   return (
     <>
