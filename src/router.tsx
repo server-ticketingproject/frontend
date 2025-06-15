@@ -36,7 +36,7 @@ const router = createBrowserRouter([
     element: <BandPage/>,
   },
   {
-    path: "/perform",
+    path: "/perform/4",
     element: <PerformPage/>,
   },
   {
