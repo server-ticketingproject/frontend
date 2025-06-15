@@ -1,7 +1,9 @@
+import StageComponent from "../../components/PerfomrReservePage/Stage";
+
 export default function PerformReservePage() {
     return (
         <div>
-            <h1>PerformReservePage</h1>
+            <StageComponent/>
         </div>
     );
 }
