@@ -9,7 +9,7 @@ import PerformPage from "./pages/PerformPage";
 import PerformReservePage from "./pages/PerformReservePage";
 import StagePage from "./pages/StagePage";
 import StageListPage from "./pages/StageListPage";
-import BandProfilePage from "./pages/BandProfilePage";
+import BandIntroducePage from "./pages/BandIntroducePage";
 
 const router = createBrowserRouter([
   {
@@ -53,8 +53,8 @@ const router = createBrowserRouter([
     element: <StageListPage/>,
   },
   {
-    path: "/band-profile",
-    element: <BandProfilePage/>,
+    path: "/band-introduce",
+    element: <BandIntroducePage/>,
   },
 ]);
 

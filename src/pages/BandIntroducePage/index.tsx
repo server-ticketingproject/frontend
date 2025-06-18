@@ -14,7 +14,7 @@ interface MemeberProps {
     introduce : string; 
 }
 
-interface BandProfilePageProps {
+interface BandIntroducePageProps {
     bandName : string;
     introduce : string;
     memberList : MemeberProps[];
@@ -53,7 +53,7 @@ function MemberCard(props : MemeberProps) {
 }
 
 // Mock data for BandProfilePage
-export const mockBandProfileData: BandProfilePageProps = {
+export const mockBandIntroduceData: BandIntroducePageProps = {
   bandName: "test",
   introduce: "안녕하세요! 열정적인 음악을 사랑하는 밴드입니다. 다양한 장르의 음악을 즐기며, 대중들에게 즐거움을 전달하는 것을 목표로 하고 있습니다.",
   representativeImage: testImage,
@@ -86,8 +86,8 @@ export const mockBandProfileData: BandProfilePageProps = {
   ]
 };
 
-export default function BandProfilePage() {
-    const { bandName, introduce, memberList, representativeImage, imgList } = mockBandProfileData;
+export default function BandIntroducePage() {
+    const { bandName, introduce, memberList, representativeImage, imgList } = mockBandIntroduceData;
 
     return (
         <VStack
