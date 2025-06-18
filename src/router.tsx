@@ -3,7 +3,7 @@ import App from "./App";
 import ChatPage from "./pages/ChatPage";
 import PerformListPage from "./pages/PerformListPage";
 import LoginPage from "./pages/LoginPage";
-import SigninPage from "./pages/SigninPage";
+import SigninPage from "./pages/SignupPage";
 import BandPage from "./pages/BandPage";
 import PerformPage from "./pages/PerformPage";
 import PerformReservePage from "./pages/PerformReservePage";

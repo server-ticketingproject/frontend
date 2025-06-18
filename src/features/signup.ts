@@ -7,7 +7,7 @@ interface formData {
 }
 
 export default function signIn(data : formData) {
-  fetch('http://127.0.0.1:8000/api/users/register/', {
+  fetch('http://127.0.0.1:8000/api/users/signup/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

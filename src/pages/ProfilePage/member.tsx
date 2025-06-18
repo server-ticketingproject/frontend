@@ -39,7 +39,16 @@ const performanceMockdata = [
         where : "서울시 용산구 청파동 12길",
         ticketLeft : 10,
     }
-]
+];
+
+// Remove the 수정하기 button
+// <Button 
+//     onClick={() => setIsEditModalOpen(true)}
+//     text="수정하기"
+//     fontSize={14}
+//     paddingVertical={8}
+//     paddingHorizontal={16}
+// />
 
 export default function MemberPage() {
     const navigate = useNavigate();

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styles from './style.module.css';
-import signIn from '../../features/signin';
+import signUp from '../../features/signup'; 
 import COLORS from '../../styles/colors';
 
 export default function SigninPage() {
@@ -20,8 +20,9 @@ export default function SigninPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('회원가입 데이터:', formData);
+    console.log('회원가입 요청을 보냅니다...');
 
-    const data = signIn(formData);
+    const data = signUp(formData); 
     //@ts-ignore
     if (data) {
       alert('회원가입이 완료되었습니다!');
@@ -38,6 +39,7 @@ export default function SigninPage() {
           닉네임
           <input
             type="text"
+            autoComplete="off"
             name="username"
             value={formData.username}
             onChange={handleChange}
@@ -55,7 +57,6 @@ export default function SigninPage() {
             onChange={handleChange}
             required
             placeholder="이메일을 입력해주세요."
-
           />
         </label>
 
