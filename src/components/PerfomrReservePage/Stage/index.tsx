@@ -86,9 +86,14 @@ const SeatsContainer = styled.div`
   gap: 8px;
 `;
 
+interface StageProps {
+  stageData: any;
+}
+
 export default function StageComponent({ 
   stageList = [],
-  onSeatSelect 
+  onSeatSelect ,
+  stageData, //여기로 base64 인코딩된 값 들어오니깐, 이거 디코딩해서 저장하셈
 }: StageProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedSeat, setSelectedSeat] = useState('a6'); // Default to a6 as initially selected
@@ -101,6 +106,7 @@ export default function StageComponent({
   const handleConfirm = () => {
     console.log(`Confirmed selection for seat ${selectedSeat}`);
     closeModal();
+    //여기다가 내 예약한 그거 추가하는거 추가
   };
   
   const [seats, setSeats] = useState<StageList[]>(() => {

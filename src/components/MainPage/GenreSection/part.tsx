@@ -7,27 +7,22 @@ import { HStack } from "../../HStack";
 import Button from "../../Button";
 interface GenreSectionPartProps {
     genre : string;
+    performances : Performance[];
 }
 
-export default function GenreSectionPart({ genre } : GenreSectionPartProps) {
+interface Performance {
+    id: number;
+    title: string;
+    introduce: string;
+    when: string;
+    where: string;
+    ticketLeft: number;
+    img: string;
+}
 
-    const recommendPerformList = [
-        {   
-            title : "공연 이름",
-            when : "공연 일시",
-            slogan : "공연 설명",
-        },
-        {
-            title : "공연 이름",
-            when : "공연 일시",
-            slogan : "공연 설명",
-        },
-        {
-            title : "공연 이름",
-            when : "공연 일시",
-            slogan : "공연 설명",
-        },
-    ];
+export default function GenreSectionPart({ genre, performances } : GenreSectionPartProps) {
+
+    const recommendPerformList = performances;
 
     return (
         <VStack
@@ -64,7 +59,6 @@ export default function GenreSectionPart({ genre } : GenreSectionPartProps) {
                     key={index}
                     title={perform.title}
                     when={perform.when}
-                    slogan={perform.slogan}
                 />
             ))}
             </HStack>

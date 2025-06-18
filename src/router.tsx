@@ -10,6 +10,9 @@ import PerformReservePage from "./pages/PerformReservePage";
 import StagePage from "./pages/StagePage";
 import StageListPage from "./pages/StageListPage";
 import BandIntroducePage from "./pages/BandIntroducePage";
+import BandProfilePage from "./pages/ProfilePage/band";
+import MemberPage from "./pages/ProfilePage/member";
+import StageMainPage from "./pages/StageMainPage";
 
 const router = createBrowserRouter([
   {
@@ -18,10 +21,10 @@ const router = createBrowserRouter([
   },
   {
     path: "/chat",
-    element: <ChatPage />,
+    element: <ChatPage />
   },
   {
-    path: "/perform",
+    path: "/performList",
     element: <PerformListPage />,
   },
   {
@@ -37,11 +40,11 @@ const router = createBrowserRouter([
     element: <BandPage/>,
   },
   {
-    path: "/perform/4",
-    element: <PerformPage/>,
-  },
+    path: "/perform/:encoded",
+    element: <PerformPage />,
+  },  
   {
-    path: "/perform-reserve",
+    path: "/perform-reserve/:encoded",
     element: <PerformReservePage/>,
   },
   {
@@ -55,6 +58,18 @@ const router = createBrowserRouter([
   {
     path: "/band-introduce",
     element: <BandIntroducePage/>,
+  },
+  {
+    path: "/band-profile",
+    element: <BandProfilePage/>,
+  },
+  {
+    path: "/member-profile",
+    element: <MemberPage/>,
+  },
+  {
+    path: "/stage-main",
+    element: <StageMainPage/>,
   },
 ]);
 

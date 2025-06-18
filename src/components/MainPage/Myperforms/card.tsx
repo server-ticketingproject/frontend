@@ -9,11 +9,13 @@ interface MyperformsCardProps {
     title : string;
     when : string;
     where : string;
+    img ?: string
 }
 export default function MyperformsCard({
     title,
     when,
     where,
+    img,
 }: MyperformsCardProps) {
     return (
         <VStack
@@ -24,7 +26,7 @@ export default function MyperformsCard({
                 width : '100%',
                 height : 100,
                 padding : SPACING.tiny,
-                backgroundImage : `url(${testBandImage})`,
+                backgroundImage : `url(${img ? img : testBandImage})`,
                 backgroundSize : "cover",
                 backgroundPosition : "center",
                 borderRadius : SPACING.tiny,

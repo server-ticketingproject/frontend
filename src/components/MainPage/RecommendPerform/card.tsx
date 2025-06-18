@@ -5,14 +5,12 @@ import { FONTS } from "../../../styles/fonts";
 import COLORS from "../../../styles/colors";
 interface RecommendPerformCardProps {
     title : string;
-    slogan : string;
     when : string;
 }
 
 export default function RecommendPerformCard({
     title,
     when,
-    slogan,
 }: RecommendPerformCardProps) {
     return (
         <VStack
@@ -38,14 +36,6 @@ export default function RecommendPerformCard({
                     position : "relative",
                 }}
             >
-                <p
-                    style={{
-                        fontSize : FONTS.size.title,
-                        fontWeight : FONTS.weight.w5,
-                        color : COLORS.textInvert,
-                        zIndex : 1,
-                    }}
-                >{slogan}</p>
                 <div
                     style={{
                         position : "absolute",

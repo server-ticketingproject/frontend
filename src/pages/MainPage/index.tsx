@@ -7,6 +7,113 @@ import WeekPerformCardLayout from "../../components/MainPage/weekPerformCard/lay
 import MyperformsLayout from "../../components/MainPage/Myperforms/layout";
 import RecommendPerformLayout from "../../components/MainPage/RecommendPerform/layout";
 import GenreSectionLayout from "../../components/MainPage/GenreSection/layout";
+import testImage from "../../assets/testBandImage.jpeg"
+
+/**
+ * Mock data representing a list of performance events.
+ * Each event includes:
+ * - `id`: Unique identifier for the event.
+ * - `name`: Name of the band or performance.
+ * - `img`: Image associated with the event.
+ * - `introduce`: A brief introduction about the band.
+ * - `when`: Date range of the event.
+ * - `where`: Location of the event.
+ * - `  ticketLeft`: Number of tickets remaining for the event.
+ */
+const mockData = [
+    {
+        id: 1,
+        title : "오이스터즈 어게인",
+        img : testImage,
+        introduce : "오이스터즈 어게인은 2015년에 설립된 한국의 랜드1로프밴드입니다.",
+        when : "2023.12.01 ~ 2023.12.31",
+        where : "서울시 용산구 청파동 12길",
+        ticketLeft : 10,
+    },
+    {
+        id: 2,
+        title : "오이스터즈 어게인",
+        img : testImage,
+        introduce : "오이스터즈 어게인은 2015년에 설립된 한국의 랜드2로프밴드입니다.",
+        when : "2023.12.01 ~ 2023.12.31",
+        where : "서울시 용산구 청파동 12길",
+        ticketLeft : 10,
+    },
+    {
+        id: 3,
+        title : "오이스터즈 어게인",
+        img : testImage,
+        introduce : "오이스터즈 어게인은 2015년에 설립된 한국의 랜드3로프밴드입니다.",
+        when : "2023.12.01 ~ 2023.12.31",
+        where : "서울시 용산구 청파동 12길",
+        ticketLeft : 10,
+    },
+    {
+        id: 4,
+        title : "오이스터즈 어게인",
+        img : testImage,
+        introduce : "오이스터즈 어게인은 2015년에 설립된 한국의 랜드4로프밴드입니다.",
+        when : "2023.12.01 ~ 2023.12.31",
+        where : "서울시 용산구 청파동 12길",
+        ticketLeft : 10,
+    },
+    {   
+        id: 5,
+        title : "오이스터즈 어게인",
+        img : testImage,
+        introduce : "오이스터즈 어게인은 2015년에 설립된 한국의 랜드5로프밴드입니다.",
+        when : "2023.12.01 ~ 2023.12.31",
+        where : "서울시 용산구 청파동 12길",
+        ticketLeft : 10,
+    },
+    {
+        id: 6,
+        title : "오이스터즈 어게인",
+        img : testImage,
+        introduce : "오이스터즈 어게인은 2015년에 설립된 한국의 랜드6로프밴드입니다.",
+        when : "2023.12.01 ~ 2023.12.31",
+        where : "서울시 용산구 청파동 12길",
+        ticketLeft : 10,
+    },
+    {
+        id: 7,
+        title : "오이스터즈 어게인",
+        img : testImage,
+        introduce : "오이스터즈 어게인은 2015년에 설립된 한국의 랜드7로프밴드입니다.",
+        when : "2023.12.01 ~ 2023.12.31",
+        where : "서울시 용산구 청파동 12길",
+        ticketLeft : 10,
+    },
+    {
+        id: 8,
+        title : "오이스터즈 어게인",
+        img : testImage,
+        introduce : "오이스터즈 어게인은 2015년에 설립된 한국의 랜드8로프밴드입니다.",
+        when : "2023.12.01 ~ 2023.12.31",
+        where : "서울시 용산구 청파동 12길",
+        ticketLeft : 10,
+    },
+    {
+        id: 9,
+        title : "오이스터즈 어게인",
+        img : testImage,
+        introduce : "오이스터즈 어게인은 2015년에 설립된 한국의 랜드9로프밴드입니다.",
+        when : "2023.12.01 ~ 2023.12.31",
+        where : "서울시 용산구 청파동 12길",
+        ticketLeft : 10,
+    },
+    {
+        id: 10,
+        title : "오이스터즈 어게인",
+        img : testImage,
+        introduce : "오이스터즈 어게인은 2015년에 설립된 한국의 랜드10로프밴드입니다.",
+        when : "2023.12.01 ~ 2023.12.31",
+        where : "서울시 용산구 청파동 12길",
+        ticketLeft : 10,
+    },
+
+]
+
 export default function MainPage() {
     return (
         <VStack
@@ -29,11 +136,11 @@ export default function MainPage() {
                     padding : `0 ${SPACING.medium}px`,
                 }}
             >
-               <WeekPerformCardLayout />
+               <WeekPerformCardLayout performances={mockData.slice(0, 4)} />
                <MyperformsLayout />
             </HStack>
-            <RecommendPerformLayout />
-            <GenreSectionLayout />
+            <RecommendPerformLayout performances={mockData}/>
+            <GenreSectionLayout performances={mockData.slice(0, 3)}/>
         </VStack>
     );
 }

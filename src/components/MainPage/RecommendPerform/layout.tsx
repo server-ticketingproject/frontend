@@ -5,58 +5,17 @@ import COLORS from "../../../styles/colors";
 import { HStack } from "../../HStack";
 import RecommendPerformCard from "./card";
 import Button from "../../Button";
-export default function RecommendPerformLayout() {
+import { Performance } from "../../../interface/perfromance.ts"
+import { useNavigate } from "react-router-dom";
+interface RecommendPerformLayoutProps {
+    performances : Performance[];
+}
 
-    const recommendPerformList = [
-        {   
-            title : "공연 이름",
-            when : "공연 일시",
-            slogan : "공연 설명",
-        },
-        {
-            title : "공연 이름",
-            when : "공연 일시",
-            slogan : "공연 설명",
-        },
-        {
-            title : "공연 이름",
-            when : "공연 일시",
-            slogan : "공연 설명",
-        },
-        {
-            title : "공연 이름",
-            when : "공연 일시",
-            slogan : "공연 설명",
-        },
-        {
-            title : "공연 이름",
-            when : "공연 일시",
-            slogan : "공연 설명",
-        },   
-        {
-            title : "공연 이름",
-            when : "공연 일시",
-            slogan : "공연 설명",
-        },
-        {
-            title : "공연 이름",
-            when : "공연 일시",
-            slogan : "공연 설명",
-        },
-        {
-            title : "공연 이름",
-            when : "공연 일시",
-            slogan : "공연 설명",
-        },
-        {
-            title : "공연 이름",
-            when : "공연 일시",
-            slogan : "공연 설명",
-        },
-    ];
+export default function RecommendPerformLayout({ performances }: RecommendPerformLayoutProps) {
 
-
-
+    const navigate = useNavigate();
+    const recommendPerformList = performances;
+    
     return (
         <VStack
             align="flex-start"
@@ -91,7 +50,6 @@ export default function RecommendPerformLayout() {
                         key={index}
                         title={perform.title}
                         when={perform.when}
-                        slogan={perform.slogan}
                     />
                 ))}
             </HStack>
@@ -103,7 +61,7 @@ export default function RecommendPerformLayout() {
                 }}
             >
                 <Button
-                    onClick={() => {console.log('더 많은 공연 보러가기') }}
+                    onClick={() => {navigate('/performList')}}
                     text="더 많은 공연 보러가기"
                     fontSize={FONTS.size.body}
                     paddingHorizontal={SPACING.huge}

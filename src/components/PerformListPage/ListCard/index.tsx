@@ -123,7 +123,7 @@ export default function ListCard({ img, title, when, text, where, tags } : ListC
                 <Tag
                     text={tag}
                     size="small"
-                    isSelected={false}
+                    isSelected={true}
                 />
             ))}
         </VStack>

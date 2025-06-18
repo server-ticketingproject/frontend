@@ -10,11 +10,29 @@ import PerformIntroduceCard from "../../components/PerformPage/IntroduceCard";
 import Button from "../../components/Button";
 import Tag from "../../components/Tag";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useState } from "react";
+import { useEffect } from "react";
 
 export default function PerformPage() {
+    const { encoded } = useParams();
+    const [performData, setPerformData] = useState<any>(null);
     const navigate = useNavigate();
-    const tags = ['재밋', '청년', '밴드'];  
-    const images = [testImage, testImage, testImage, testImage, testImage, testImage, testImage];
+
+    useEffect(() => {
+        try {
+            const decoded = decodeURIComponent(atob(encoded || ''));
+            const data = JSON.parse(decoded);
+            setPerformData(data);
+        } catch (e) {
+            console.error("공연 데이터 디코딩 실패", e);
+        }
+    }, [encoded]);
+
+    if (!performData) return <p>공연 정보를 불러오는 중입니다...</p>;
+
+    const { title, when, where, text, tags } = performData;
+    const images = [testImage, testImage, testImage];
 
     return (
         <VStack
@@ -61,18 +79,17 @@ export default function PerformPage() {
                                 fontWeight : FONTS.weight.w7,
                             color : COLORS.textPrimary,
                         }}
-                    >오이스터즈 어게인</p>
+                    >{title}</p>
                     <p
                         style={{
                             fontSize : FONTS.size.body,
                             fontWeight : FONTS.weight.w3,
                             color : COLORS.textPrimary,
                         }}
-                    >저희는 청년밴드로 재밋는 곡들을 연주하고.
-                    어쩌고 저쩌고 많이 보러 와주셈 ㅋㅋ</p>
+                    >{text}</p>
                     <TitleAndText
                         title="일시"
-                        text="2025/12/26 20:00~22:00"
+                        text={when}
                         titleSize={FONTS.size.body}
                         textSize={FONTS.size.body}
                         textColor={COLORS.textSecond}
@@ -80,7 +97,7 @@ export default function PerformPage() {
                     />
                     <TitleAndText
                         title="장소"
-                        text="서울특별시"
+                        text={where}
                         titleSize={FONTS.size.body}
                         textSize={FONTS.size.body}
                         textColor={COLORS.textSecond}
@@ -117,7 +134,7 @@ export default function PerformPage() {
                 <Button
                     text="예매하기"
                     fontSize={FONTS.size.body}
-                    onClick={() => {navigate('/perform-reserve')}}
+                    onClick={() => {navigate('/perform-reserve/' + encoded)}}
                     paddingHorizontal={SPACING.superHuge}
                     paddingVertical={40}
                 />
@@ -164,7 +181,7 @@ export default function PerformPage() {
                                     color : COLORS.textPrimary,
                                 }}
                             >태그</p>
-                            {tags.map((tag, index) => (
+                            {tags.map((tag : any, index : number) => (
                                 <Tag
                                     key={index}
                                     text={tag}
