@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { VStack } from "../../components/VStack";
 import Header from "../../components/Header";
 import { SPACING } from "../../styles/spacing";
@@ -7,19 +8,14 @@ import WeekPerformCardLayout from "../../components/MainPage/weekPerformCard/lay
 import MyperformsLayout from "../../components/MainPage/Myperforms/layout";
 import RecommendPerformLayout from "../../components/MainPage/RecommendPerform/layout";
 import GenreSectionLayout from "../../components/MainPage/GenreSection/layout";
-import testImage from "../../assets/testBandImage.jpeg"
+import testImage from "../../assets/testBandImage.jpeg";
+import Button from "../../components/Button";
+import { FONTS } from "../../styles/fonts";
 
 /**
  * Mock data representing a list of performance events.
- * Each event includes:
- * - `id`: Unique identifier for the event.
- * - `name`: Name of the band or performance.
- * - `img`: Image associated with the event.
- * - `introduce`: A brief introduction about the band.
- * - `when`: Date range of the event.
- * - `where`: Location of the event.
- * - `  ticketLeft`: Number of tickets remaining for the event.
  */
+
 const mockData = [
     {
         id: 1,
@@ -111,10 +107,74 @@ const mockData = [
         where : "서울시 용산구 청파동 12길",
         ticketLeft : 10,
     },
-
-]
+];
 
 export default function MainPage() {
+    const [performances, setPerformances] = useState<any[]>(mockData);
+
+    useEffect(() => {
+        fetch('http://127.0.0.1:8000/api/events')
+            .then(res => res.json())
+            .then(data => {
+                let list = [];
+                if (Array.isArray(data)) {
+                    list = data;
+                } else if (Array.isArray(data.results)) {
+                    list = data.results;
+                }
+                if (list.length > 0) {
+                    // 백엔드 데이터 -> 프론트 카드 데이터 변환
+                    setPerformances(
+                        list.map((item : any) => ({
+                            id: item.id,
+                            title: item.title,
+                            img: item.poster || testImage,
+                            introduce: item.team_intro || item.description || "",
+                            when: item.date || "",
+                            where: item.stage_name || "",
+                            ticketLeft: 10, // 목데이터 값 사용
+                        }))
+                    );
+                } else {
+                    setPerformances(mockData);
+                }
+            })
+            .catch(() => setPerformances(mockData));
+    }, []);
+
+    const requestdfa = () => {
+        fetch('http://127.0.0.1:8000/api/events')
+            .then(res => res.json())
+            .then(data => {
+                let list = [];
+                if (Array.isArray(data)) {
+                    list = data;
+                } else if (Array.isArray(data.results)) {
+                    list = data.results;
+                }
+                if (list.length > 0) {
+                    // 백엔드 데이터 -> 프론트 카드 데이터 변환
+                    setPerformances(
+                        list.map((item : any) => ({
+                            id: item.id,
+                            title: item.title,
+                            img: item.poster || testImage,
+                            introduce: item.team_intro || item.description || "",
+                            when: item.date || "",
+                            where: item.stage_name || "",
+                            ticketLeft: 10, // 목데이터 값 사용
+                        }))
+                    );
+                } if (list.length === 0) {
+                    console.log("목데이터로 대체합니다.");
+                } else {
+                    setPerformances(mockData);
+                }
+            })
+            .catch(() => setPerformances(mockData));
+    }
+        
+
     return (
         <VStack
             align="center"
@@ -136,11 +196,12 @@ export default function MainPage() {
                     padding : `0 ${SPACING.medium}px`,
                 }}
             >
-               <WeekPerformCardLayout performances={mockData.slice(0, 4)} />
+               <WeekPerformCardLayout performances={performances.slice(0, 4)} />
                <MyperformsLayout />
             </HStack>
-            <RecommendPerformLayout performances={mockData}/>
-            <GenreSectionLayout performances={mockData.slice(0, 3)}/>
+            <RecommendPerformLayout performances={performances}/>
+            <GenreSectionLayout performances={performances.slice(0, 3)}/>
+            <Button text="더보기" onClick={() => {requestdfa()}} fontSize={FONTS.size.small} /> 
         </VStack>
     );
 }

@@ -6,20 +6,24 @@ export default function ProfileCircle() {
     const navigate = useNavigate();
     const accessToken = localStorage.getItem('access-token');
 
-    useEffect(() => {
+    const handleClick = () => {
         if (accessToken) {
-            navigate('/profile');
+            navigate('/member-profile');
+        } else {
+            navigate('/login');
         }
-    }, [accessToken]);
+    };
+
     return (
         <div
-            onClick={() => {navigate('/login')}}
             style={{
                 width: "40px",
                 height: "40px",
                 borderRadius: "50%",
                 backgroundColor: COLORS.textFifth,
+                cursor: "pointer",
             }}
+            onClick={handleClick}
         />
     );
 }

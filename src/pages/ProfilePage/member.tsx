@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { VStack } from "../../components/VStack";
 import { HStack } from "../../components/HStack";
 import { SPACING } from "../../styles/spacing";
@@ -13,47 +13,32 @@ import Button from "../../components/Button";
 import Input from "../../components/Input";
 import Modal from "../../components/Modal";
 
-const userMockdata  = {
-    id : 'asdfadsf',
-    username : "문이제",
-    email : "aa@naver.com", 
-    phone : "010-1117-1462",
-}
-
-const performanceMockdata = [
-    {
-        id: 1,
-        title : "오이스터즈 어게인",
-        img : testImage,
-        introduce : "오이스터즈 어게인은 2015년에 설립된 한국의 랜드1로프밴드입니다.",
-        when : "2023.12.01 ~ 2023.12.31",
-        where : "서울시 용산구 청파동 12길",
-        ticketLeft : 10,
-    },
-    {
-        id: 2,
-        title : "오이스터즈 어게인",
-        img : testImage,
-        introduce : "오이스터즈 어게인은 2015년에 설립된 한국의 랜드2로프밴드입니다.",
-        when : "2023.12.01 ~ 2023.12.31",
-        where : "서울시 용산구 청파동 12길",
-        ticketLeft : 10,
-    }
-];
-
-// Remove the 수정하기 button
-// <Button 
-//     onClick={() => setIsEditModalOpen(true)}
-//     text="수정하기"
-//     fontSize={14}
-//     paddingVertical={8}
-//     paddingHorizontal={16}
-// />
-
 export default function MemberPage() {
     const navigate = useNavigate();
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-    const [editedUser, setEditedUser] = useState(userMockdata);
+    const [editedUser, setEditedUser] = useState({
+        id: '',
+        username: '',
+        email: '',
+        phone: '',
+    });
+    const [performanceList, setPerformanceList] = useState<any[]>([]);
+
+    // 로그인 시 받은 토큰에서 사용자 정보와 예약 공연 정보 불러오기
+    useEffect(() => {
+        // 예시: localStorage에 저장된 사용자 정보와 예약 공연 정보 사용
+        const userData = JSON.parse(localStorage.getItem('user') || '{}');
+        setEditedUser({
+            id: userData.id || '',
+            username: userData.username || '',
+            email: userData.email || '',
+            phone: userData.phone || '',
+        });
+
+        // 예약 공연 정보도 localStorage에서 불러오기 (예: 'reserved_performances')
+        const reserved = JSON.parse(localStorage.getItem('reserved_performances') || '[]');
+        setPerformanceList(reserved);
+    }, []);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -64,8 +49,8 @@ export default function MemberPage() {
     };
 
     const handleSave = () => {
-        // Here you would typically make an API call to save the changes
-        console.log('Saving user data:', editedUser);
+        // 실제로는 API 호출 필요
+        localStorage.setItem('user', JSON.stringify(editedUser));
         setIsEditModalOpen(false);
     };
 
@@ -101,32 +86,32 @@ export default function MemberPage() {
                         <TitleAndText
                             title="username"
                             titleSize={FONTS.size.title}
-                            text={userMockdata.username}
+                            text={editedUser.username}
                             textSize={FONTS.size.body}
                             gap={SPACING.tiny}
                         />
                         <div style={{ marginLeft: 'auto' }}>
-                            <Button 
+                            {/* <Button 
                                 onClick={() => setIsEditModalOpen(true)}
                                 text="수정하기"
                                 fontSize={14}
                                 paddingVertical={8}
                                 paddingHorizontal={16}
-                            />
+                            /> */}
                         </div>
                     </HStack>
                 </div>
                 <TitleAndText
                     title="email"
                     titleSize={FONTS.size.title}
-                    text={userMockdata.email}
+                    text={editedUser.email}
                     textSize={FONTS.size.body}
                     gap={SPACING.tiny}
                 />
                 <TitleAndText
                     title="phone"
                     titleSize={FONTS.size.title}
-                    text={userMockdata.phone}
+                    text={editedUser.phone}
                     textSize={FONTS.size.body}
                     gap={SPACING.tiny}
                 />
@@ -148,14 +133,19 @@ export default function MemberPage() {
                             zIndex : 1,
                         }}
                     >내가 예약한 공연 목록</p>
-                    {performanceMockdata.map((performance) => (
-                        <MyperformsCard
-                            title={performance.title}
-                            when={performance.when}
-                            where={performance.where}
-                            img={performance.img}
-                        />
-                    ))}
+                    {performanceList.length > 0 ? (
+                        performanceList.map((performance) => (
+                            <MyperformsCard
+                                key={performance.id}
+                                title={performance.title}
+                                when={performance.when}
+                                where={performance.where}
+                                img={performance.img || testImage}
+                            />
+                        ))
+                    ) : (
+                        <p style={{ color: COLORS.textThird }}>예약한 공연이 없습니다.</p>
+                    )}
                 </VStack>
             </VStack>
             </VStack>

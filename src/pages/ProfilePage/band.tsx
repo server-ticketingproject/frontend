@@ -89,9 +89,36 @@ export default function BandProfilePage() {
     setIsEditMode(true);
   };
 
-  const handleSave = () => {
-    console.log('Saving data:', editableData);
-    setIsEditMode(false);
+  // 프로필 저장: performer/profile로 name, introduce 전송
+  const handleSave = async () => {
+    try {
+      const token = localStorage.getItem('access_token');
+      const payload = {
+        name: editableData.name,
+        introduce: editableData.introduce,
+      };
+
+      const response = await fetch('http://127.0.0.1:8000/api/performer/profile/', {
+        method: 'POST', // 또는 'POST' (백엔드에 맞게)
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const err = await response.json();
+        alert(err.detail || '프로필 저장 실패');
+        return;
+      }
+
+      alert('프로필이 성공적으로 저장되었습니다!');
+      setIsEditMode(false);
+    } catch (error) {
+      alert('서버 에러 발생');
+      console.error(error);
+    }
   };
 
   const handleCancel = () => {
