@@ -24,18 +24,32 @@ export default function MemberPage() {
     });
     const [performanceList, setPerformanceList] = useState<any[]>([]);
 
-    // 로그인 시 받은 토큰에서 사용자 정보와 예약 공연 정보 불러오기
+    // users/profile에서 사용자 정보 받아오기
     useEffect(() => {
-        // 예시: localStorage에 저장된 사용자 정보와 예약 공연 정보 사용
-        const userData = JSON.parse(localStorage.getItem('user') || '{}');
-        setEditedUser({
-            id: userData.id || '',
-            username: userData.username || '',
-            email: userData.email || '',
-            phone: userData.phone || '',
-        });
+        fetch('http://127.0.0.1:8000/api/users/profile/', {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+            },
+        })
+            .then(res => res.ok ? res.json() : Promise.reject())
+            .then(data => {
+                setEditedUser({
+                    id: data.id || '',
+                    username: data.username || '',
+                    email: data.email || '',
+                    phone: data.phone || '',
+                });
+            })
+            .catch(() => {
+                setEditedUser({
+                    id: '',
+                    username: '',
+                    email: '',
+                    phone: '',
+                });
+            });
 
-        // 예약 공연 정보도 localStorage에서 불러오기 (예: 'reserved_performances')
+        // 예약 공연 정보는 기존대로 localStorage에서 불러오기
         const reserved = JSON.parse(localStorage.getItem('reserved_performances') || '[]');
         setPerformanceList(reserved);
     }, []);
@@ -50,7 +64,6 @@ export default function MemberPage() {
 
     const handleSave = () => {
         // 실제로는 API 호출 필요
-        localStorage.setItem('user', JSON.stringify(editedUser));
         setIsEditModalOpen(false);
     };
 

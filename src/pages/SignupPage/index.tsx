@@ -2,6 +2,7 @@ import { useState } from 'react';
 import styles from './style.module.css';
 import signUp from '../../features/signup'; 
 import COLORS from '../../styles/colors';
+import { useNavigate } from 'react-router-dom';
 
 export default function SigninPage() {
   const [formData, setFormData] = useState({
@@ -10,23 +11,31 @@ export default function SigninPage() {
     email: '',
     role: '',
     phone: '',
+    access: '',
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('회원가입 데이터:', formData);
-    console.log('회원가입 요청을 보냅니다...');
-
-    const data = signUp(formData); 
-    //@ts-ignore
-    if (data) {
+    try {
+      const response = await signUp(formData);
+      // 백엔드에서 access, refresh 토큰을 반환한다고 가정
+      //@ts-ignore
+      if (response && response.access) {
+        //@ts-ignore
+        localStorage.setItem('access_token', response.access);
+      }
+      localStorage.setItem('signup_role', formData.role); // 역할 저장
       alert('회원가입이 완료되었습니다!');
-      // 추가 동작(예: 리디렉션) 가능
+      navigate('/login');
+    } catch (error: any) {
+      alert(error.message || '회원가입에 실패했습니다.');
     }
   };
 

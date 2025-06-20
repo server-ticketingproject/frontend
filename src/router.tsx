@@ -13,6 +13,7 @@ import BandIntroducePage from "./pages/BandIntroducePage";
 import BandProfilePage from "./pages/ProfilePage/band";
 import MemberPage from "./pages/ProfilePage/member";
 import StageMainPage from "./pages/StageMainPage";
+import StageManagerPage from "./pages/ProfilePage/stage";
 
 const router = createBrowserRouter([
   {
@@ -71,6 +72,10 @@ const router = createBrowserRouter([
     path: "/stage-main",
     element: <StageMainPage/>,
   },
+  {
+    path: "/stage-manager",
+    element: <StageManagerPage />,
+  }
 ]);
 
 export default router;

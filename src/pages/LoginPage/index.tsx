@@ -6,14 +6,15 @@ import axios from 'axios';
 
 // 역할에 따라 로그인 URL 반환
 const getLoginUrl = (role: string) => {
-    switch (role) {
-        case 'performer':
-            return 'http://127.0.0.1:8000/api/performers/login/';
-        case 'stage_manager':
-            return 'http://127.0.0.1:8000/api/stage_managers/login/';
-        default:
-            return 'http://127.0.0.1:8000/api/users/login/';
-    }
+    // switch (role) {
+    //     case 'performer':
+    //         return 'http://127.0.0.1:8000/api/performer/login/';
+    //     case 'stage_manager':
+    //         return 'http://127.0.0.1:8000/api/stage_manager/login/';
+    //     default:
+    //         return 'http://127.0.0.1:8000/api/users/login/';
+    // }
+    return 'http://127.0.0.1:8000/api/users/login/';
 };
 
 const fetchProtectedData = () => {
@@ -67,6 +68,7 @@ const LoginPage: React.FC = () => {
                 return;
             }
             const data = await response.json();
+            localStorage.setItem('id', data.id); // 사용자 ID 저장
             console.log('로그인 성공:', data);
 
             // JWT 토큰을 localStorage에 저장

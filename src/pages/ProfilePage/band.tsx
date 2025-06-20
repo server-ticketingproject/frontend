@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { VStack } from "../../components/VStack";
 import { SPACING } from "../../styles/spacing";
 import { HStack } from "../../components/HStack";
@@ -61,18 +61,12 @@ export default function BandProfilePage() {
   const [isEditMode, setIsEditMode] = useState(false);
   const [editableData, setEditableData] = useState<BandData>({
     img: testImage,
-    name: "오이스터즈 어게인",
-    introduce: "오이스터즈 어게인은 2015년에 설립된 한국의 랜드로프밴드입니다.",
-    memberList: [
-      { img: testImage, name: "김보컬", introduce: "보컬을 맡고 있습니다." },
-      { img: testImage, name: "이기타", introduce: "기타리스트입니다." },
-      { img: testImage, name: "박드럼", introduce: "드러머입니다." },
-      { img: testImage, name: "정베이스", introduce: "베이시스트입니다." }
-    ],
+    name: "",
+    introduce: "",
+    memberList: [],
     performances: [],
     imgList: Array(6).fill(testImage)
   });
-
   const [originalData, setOriginalData] = useState<BandData>({ ...editableData });
   const [showPerformanceForm, setShowPerformanceForm] = useState(false);
   const [newPerformance, setNewPerformance] = useState<Omit<Performance, 'id' | 'img'>>({
@@ -80,26 +74,77 @@ export default function BandProfilePage() {
     when: '',
     text: '',
     where: '',
-    tags: []
+    tags: [],
   });
+  const [performData, setPerformData] = useState<any>();
   const [tagInput, setTagInput] = useState('');
 
-  const handleEditClick = () => {
-    setOriginalData({ ...editableData });
-    setIsEditMode(true);
-  };
+  // performer/detail에서 프로필 정보 받아오기(GET)
+  useEffect(() => {
+    const token = localStorage.getItem('access_token');
+    // fetch('http://127.0.0.1:8000/api/performer/add/', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     ...(token && { Authorization: `Bearer ${token}` }),
+    //   },
+    // })
+    //   .then(res => res.ok ? res.json() : Promise.reject())
+    //   .then(data => {
+    //     setEditableData(prev => ({
+    //       ...prev,
+    //       name: data.name || "",
+    //       introduce: data.introduce || "",
+    //       // 필요하다면 멤버, 이미지 등도 data에서 받아서 세팅
+    //     }));
+    //     setOriginalData(prev => ({
+    //       ...prev,
+    //       name: data.name || "",
+    //       introduce: data.introduce || "",
+    //     }));
+    //     // performer id 저장 (업데이트/삭제용)
+    //     setPerformerId(data.id);
+    //     console.log("프로필 정보:", data);
+    //   })
+    //   .catch(() => {
+    //     // 실패 시 기본값 유지
+    //   });
+      fetch('http://127.0.1:8000/api/users/profile', {
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+      })
+        .then(res => res.ok ? res.json() : Promise.reject())
+        .then(data => {
+          console.log("사용자 정보:", data);
+          performerId && setPerformerId(data.id);
+        })
+        .catch(() => {
+          // 실패 시 기본값 유지
+        });
+  }, []);
 
-  // 프로필 저장: performer/profile로 name, introduce 전송
+  // performer id 상태 추가
+  const [performerId, setPerformerId] = useState<string | null>(null);
+
+  // 프로필 저장: performer/detail/{id}로 name, introduce 전송(PUT)
   const handleSave = async () => {
+    //@ts-ignore
+    if (!performData.id) {
+      alert('프로필 ID를 찾을 수 없습니다.');
+      return;
+    }
     try {
       const token = localStorage.getItem('access_token');
       const payload = {
-        name: editableData.name,
-        introduce: editableData.introduce,
-      };
-
-      const response = await fetch('http://127.0.0.1:8000/api/performer/profile/', {
-        method: 'POST', // 또는 'POST' (백엔드에 맞게)
+        name: performData.name,
+        introduce: performData.introduce,
+      };  
+      const performerIda = localStorage.getItem('performer_id');
+      //@ts-ignore
+      const response = await fetch(`http://127.0.0.1:8000/api/performer/update/${performerIda}/`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           ...(token && { Authorization: `Bearer ${token}` }),
@@ -115,10 +160,46 @@ export default function BandProfilePage() {
 
       alert('프로필이 성공적으로 저장되었습니다!');
       setIsEditMode(false);
+      setOriginalData({ ...editableData });
     } catch (error) {
       alert('서버 에러 발생');
       console.error(error);
     }
+  };
+
+  // 프로필 삭제: performer/detail/{id}로 DELETE
+  const handleDelete = async () => {
+    if (!performerId) {
+      alert('프로필 ID를 찾을 수 없습니다.');
+      return;
+    }
+    try {
+      const token = localStorage.getItem('access_token');
+      const response = await fetch(`http://127.0.0.1:8000/api/performer/detail/${performerId}/`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+      });
+
+      if (!response.ok) {
+        const err = await response.json();
+        alert(err.detail || '프로필 삭제 실패');
+        return;
+      }
+
+      alert('프로필이 삭제되었습니다.');
+      // 삭제 후 원하는 동작(예: 메인 페이지 이동) 추가
+    } catch (error) {
+      alert('서버 에러 발생');
+      console.error(error);
+    }
+  };
+
+  const handleEditClick = () => {
+    setOriginalData({ ...editableData });
+    setIsEditMode(true);
   };
 
   const handleCancel = () => {
@@ -183,12 +264,17 @@ export default function BandProfilePage() {
         title: newPerformance.title,
         description: newPerformance.text,
         date: formatDate(newPerformance.when),
-        tag_ids: Array.from(new Set(newPerformance.tags)),
+        where: newPerformance.where,
       };
+
+      const token = localStorage.getItem('access_token');
 
       const response = await fetch("http://127.0.0.1:8000/api/events/create/", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
         body: JSON.stringify(payload)
       });
 
@@ -209,7 +295,11 @@ export default function BandProfilePage() {
           text: newPerformance.text,
           where: newPerformance.where,
           tags: newPerformance.tags,
-          img: testImage
+          img: testImage,
+          start_time: "",
+          end_time: "",
+          tag_ids: [],
+          stage: payload.stage,
         }]
       }));
 
@@ -222,17 +312,150 @@ export default function BandProfilePage() {
     }
   };
 
+  // 이미지 업로드 핸들러
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setEditableData(prev => ({
+        ...prev,
+        img: reader.result as string,
+      }));
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // 밴드 추가 폼 상태
+  const [showAddBandForm, setShowAddBandForm] = useState(false);
+  const [addBandData, setAddBandData] = useState({
+    name: "",
+    introduce: "",
+    img: null as File | null,
+    preview: "",
+  });
+
+  // 이미지 미리보기 핸들러
+  const handleAddBandImgChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setAddBandData(prev => ({ ...prev, img: file }));
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setAddBandData(prev => ({ ...prev, preview: reader.result as string }));
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // 밴드 추가 요청
+  const handleAddBand = async () => {
+    if (!addBandData.name || !addBandData.introduce || !addBandData.img) {
+      alert("모든 필드를 입력해주세요.");
+      return;
+    }
+    try {
+      const token = localStorage.getItem('access_token');
+      const formData = new FormData();
+      formData.append("name", addBandData.name);
+      formData.append("introduce", addBandData.introduce);
+      formData.append("img", addBandData.img);
+
+      const response = await fetch("http://127.0.0.1:8000/api/performer/add/", {
+        method: "POST",
+        headers: {
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const err = await response.json();
+        alert(err.detail || "밴드 추가 실패");
+        return;
+      }
+
+      // 여기서 한 번만 await response.json() 호출!
+      const perforsmData = await response.json();
+
+      alert("밴드가 성공적으로 추가되었습니다!");
+      setShowAddBandForm(false);
+      setAddBandData({ name: "", introduce: "", img: null, preview: "" });
+      setPerformData(perforsmData);
+
+      console.log("밴드 추가 성공:", perforsmData);
+      //@ts-ignore
+      localStorage.setItem('performer_id', perforsmData.id); // 밴드 ID 저장
+      // 필요하다면 밴드 목록 새로고침 등 추가
+    } catch (error) {
+      alert("서버 에러 발생");
+      console.error(error);
+    }
+  };
+
   return (
     <VStack align="center" justify="flex-start" gap={SPACING.medium} style={{ width: "100vw", height: "100vh", overflowY: "auto", padding: `${SPACING.medium}px` }}>
       <ProfileHeader />
-      <HStack>
-        <img src={editableData.img} alt={editableData.name} style={{ width: "100px", height: "100px", borderRadius: '50%' }} />
-      </HStack>
+
+      {/* 밴드 추가 버튼 */}
+      <Button onClick={() => setShowAddBandForm(true)} text="밴드 추가" fontSize={FONTS.size.body} />
+
+      {/* 밴드가 추가되어 있으면 밴드 정보 표시 */}
+      {performData && (
+        <div style={{ width: '100%', maxWidth: 400, margin: '16px 0', padding: 16, border: '1px solid #e5e7eb', borderRadius: 8, background: '#fafbfc' }}>
+          <h3 style={{ marginBottom: 8 }}>내 밴드 정보</h3>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            {performData.img && (
+              <img src={typeof performData.img === "string" ? performData.img : URL.createObjectURL(performData.img)} alt="밴드 이미지" style={{ width: 60, height: 60, borderRadius: '50%', objectFit: 'cover' }} />
+            )}
+            <div>
+              <div style={{ fontWeight: 'bold', fontSize: '1.1em' }}>{performData.name}</div>
+              <div style={{ color: '#666', fontSize: '0.95em', marginTop: 4, whiteSpace: 'pre-line' }}>{performData.introduce}</div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 밴드 추가 폼 */}
+      {showAddBandForm && (
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1200 }}>
+          <div style={{ backgroundColor: 'white', padding: '24px', borderRadius: '10px', width: '90%', maxWidth: '400px' }}>
+            <h3>새 밴드 추가</h3>
+            <VStack gap={SPACING.small}>
+              <input
+                type="text"
+                value={addBandData.name}
+                onChange={e => setAddBandData(prev => ({ ...prev, name: e.target.value }))}
+                placeholder="밴드명"
+                style={{ padding: 8, border: '1px solid #ccc', borderRadius: 4 }}
+              />
+              <TextArea
+                value={addBandData.introduce}
+                onChange={e => setAddBandData(prev => ({ ...prev, introduce: e.target.value }))}
+                placeholder="소개글"
+                rows={3}
+              />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleAddBandImgChange}
+                style={{ marginTop: 8 }}
+              />
+              {addBandData.preview && (
+                <img src={addBandData.preview} alt="미리보기" style={{ width: 100, height: 100, borderRadius: '50%', objectFit: 'cover', marginTop: 8 }} />
+              )}
+              <HStack gap={SPACING.small} justify="flex-end">
+                <Button onClick={() => setShowAddBandForm(false)} text="취소" fontSize={FONTS.size.body} />
+                <Button onClick={handleAddBand} text="추가" fontSize={FONTS.size.body} />
+              </HStack>
+            </VStack>
+          </div>
+        </div>
+      )}
 
       {isEditMode ? (
         <VStack gap={SPACING.small} style={{ width: '100%', maxWidth: '500px' }}>
-          <Input value={editableData.name} onChange={(e) => handleInputChange('name', e.target.value)} placeholder="밴드 이름" />
-          <TextArea value={editableData.introduce} onChange={(e) => handleInputChange('introduce', e.target.value)} placeholder="밴드 소개" rows={4} />
+          {/* <Input value={editableData.name} onChange={(e) => handleInputChange('name', e.target.value)} placeholder="밴드 이름" />
+          <TextArea value={editableData.introduce} onChange={(e) => handleInputChange('introduce', e.target.value)} placeholder="밴드 소개" rows={4} /> */}
           <HStack gap={SPACING.small} justify="center">
             <Button onClick={handleSave} text="저장" fontSize={FONTS.size.body} />
             <Button onClick={handleCancel} text="취소" fontSize={FONTS.size.body} />
